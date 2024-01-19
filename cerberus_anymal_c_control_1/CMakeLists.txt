@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(cerberus_anymal_c_control_1)
 
-## Use C++14
+# # Use C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-## Package dependencies
+# # Package dependencies
 set(PACKAGE_DEPENDENCIES
   cerberus_anymal_control_base
   cerberus_anymal_control_ros
@@ -14,58 +14,60 @@ set(PACKAGE_DEPENDENCIES
   geometry_msgs
   roscpp
   roslib
+  mav_msgs
 )
 
 find_package(catkin REQUIRED COMPONENTS ${PACKAGE_DEPENDENCIES})
 
-## Tensorflow
+# # Tensorflow
 find_package(TensorFlow CONFIG REQUIRED)
-if (TensorFlow_FOUND)
+
+if(TensorFlow_FOUND)
   message(STATUS "${PROJECT_NAME}: Found TensorFlow!")
 endif()
 
-###################################
-## catkin specific configuration ##
-###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if your package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
+# ##################################
+# # catkin specific configuration ##
+# ##################################
+# # The catkin_package macro generates cmake config files for your package
+# # Declare things to be passed to dependent projects
+# # INCLUDE_DIRS: uncomment this if your package contains header files
+# # LIBRARIES: libraries you create in this project that dependent projects also need
+# # CATKIN_DEPENDS: catkin_packages dependent projects also need
+# # DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS
-    include
+  include
   LIBRARIES
-    ${PROJECT_NAME}
+  ${PROJECT_NAME}
   CATKIN_DEPENDS
-    ${CATKIN_PACKAGE_DEPENDENCIES}
+  ${CATKIN_PACKAGE_DEPENDENCIES}
 )
 
-###########
-## Build ##
-###########
+# ##########
+# # Build ##
+# ##########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
+# # Specify additional locations of header files
+# # Your package locations should be listed before other locations
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a cpp library
+# # Declare a cpp library
 add_library(${PROJECT_NAME}
   src/${PROJECT_NAME}/CerberusAnymalCControl1.cpp
 )
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_11)
 
-## Specify libraries to link executable targets against
+# # Specify libraries to link executable targets against
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   TensorFlow::TensorFlow
 )
 
-## Declare cpp executables
+# # Declare cpp executables
 add_executable(${PROJECT_NAME}_node
   src/${PROJECT_NAME}.cpp
 )
@@ -76,10 +78,9 @@ target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
 )
 
-#############
-## Install ##
-#############
-
+# ############
+# # Install ##
+# ############
 install(
   TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
